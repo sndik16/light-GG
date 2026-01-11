@@ -1,13 +1,17 @@
 # Light-GG
 
 ## SUMMARY
+
 This is just a small code which creates a coordinate grid.
-The coordinate grid is a 2D Grid model.
+The coordinate grid is a 2D Grid model (Cartesian grid).
+We use an intuitive wrapper for ganarting sky coordinte grids (but really any grids).
 
 It is light on memory usage using python concepts.
 However, its inputs are intuitive for humans (The KEY aspect of this code package), who can use their school geometry knowledge to use the program.
 
-
+This is a wrapper that is more intuitive and at the same time has a fast calculation under the hood.
+We document all steps for transparency.
+This wrapper proiritizes clarity and intuition while leveraging optimized calculations internally, making the basis for good software design for a range of scientific users from various backgrounds.
 
 ## APPLICATION EXAMPLES
 The application is, for example, a rectangular sky coordinate system in astronomy, for mapping galaxies or survey coverage.
@@ -16,3 +20,88 @@ Another applications could be terrestrial coverage, for example surveys of land 
 
 ## DISCLAIMER
 This project was developed while I worked at INAF as a postdoc, but during my independent time.
+
+
+
+## REASONS FOR CREATING THIS CODE
+When we think of coordinate grids in 2D, from basic geometry, we imagine a grid.
+Each point has two coordinates - x and y.
+However, creating such intuitive grids and furthermore operating on them is not always easy.
+For example, for just 1 degree square patch of sky, if patch is subdivided into its arcseconds, 
+we create already more than ten million tiles!
+This type of grid is heavy on the memory usage.
+
+One approach which is human-intuitive, is to use the np.meshgrid, which creates exactly the grid.
+
+However, it is memory heavy in many instances.
+
+In this alternative approach, we use regular grid-like inputs, so that the humans using the program can use their geometry intuition about grids. 2D arrays match mental map, so the inputs let the user imagine the map they want and use that imagined structure to specify what they need to the program. This higher clarity and visual accessibility of the approach is , what we believe, the superior design choice and what makes this program special.
+
+Thus, we emphasize and make important the human-centered design in scientific computing.
+
+However, under the hood we utilize less memory-heavy operations to create the coordinate system grid.
+We use np.tile and np.repeat to ease the workload on the memory, so that large 2D data structures are not employed to clog the system.
+
+
+We put as a priority clarity and human readability, so that memory optimization does not make the code unreadable and unusable to people.
+
+The human-intuitive inputs allow easy definition of the grid structure, so it is highly clear on what exactly is being created. It is also visually more intuitive and clear to humans. As the world is not created only for engineers, the human usability, visual clarity, and prioritizing the user experience over pure low-level optimization and memory efficiency, allows us to bring this code to a wider audience potentially, so that this program can serve a larger sector of people in the world. We don't want to prioritize the memory savings at the expense of readability. With current technology, the short-term memory allocation is perfectly acceptable for the long-term gain in code clarity and robustness.
+
+We also attempt to create logical steps which are not prone to human errors as much, so the syntax is clear, the intermediate steps are clear.
+
+Maybe in the future we can create instances with more high level numpy-broadcasting tricks, for advanced users or AI machines.
+
+But for now, this instance uses clear, reliable, and efficient enough method, to avoid the memory strain of meshgrid-like 2D intermediate arrays.
+
+While the user provides grid parameters, the function internaly uses optimized methods to prevent memory overruns on large grids.
+
+
+
+## Why we publish as Open Source
+
+The key roasons why this wrapper has significant value to the astronomical and general scientific comunity are:
+1. Addresses a Universal Pain Point: Generating large, regular grids for sky modeling, simulations, or map projections is a fundamental task in astronomy (e.g., Euclid, 4MOST, LSST, and countless individual projects). The trade-off between clarity (np.meshgrid-like) and efficiency (np.tile/np.repeat-tricks) is a common dilemma. This wrapper solves this dilemma elegantly.
+
+2. Encourages Best Practices: By providing a clear , simple function that automatically employs memory-safe techniques, we are standardizing a best practice. New users avoid hitting memory limits, and veteran users gain a clear, documented utility function.
+
+3. Low Barrier to Entry: Because the code is succinct, it is easy to aduit, test, and integrate into existing projects. The core logic relies on fundamentyl NumPy and Astropy concetps, making it accessible.
+
+4. Extensibility: Once the wrapper is public, others may contribute features like:
+- Adding support for HEALPix conversion.
+- Automatic chunking for parallel processing on multi-core systems.
+- Support for different coordinate frames (e.g., Galactic).
+- Alternative approaches with more advanced broadcasting tools with numpy.
+- Maybe explored for other geometry types (spherical etc.)
+
+5. Can be applied to any instance where a Cartesian 2D grid is applicable, e.g. geosurveys, radar surveys, including across all scientific disciplines that require large, optimized 2D data grids, such as fluid dynamics, image processing, finite element analysis, etc.
+
+In short, it provides a valuable solution to a common scientific programming problem and is perfectly suited for open-source contribution.
+
+
+## INPUTS
+The input is just several parameters which describe a x/y coordinate grid in one's imagination.
+
+Patch coordinates:
+reference_ra
+reference_dec
+ra_end
+dec_end
+
+Number of points in each dimension
+N_points_ra
+N_points_dec
+
+The resultant grid has a size of N_points_ra x N_points_dec size.
+
+In case of the square patch, N_points_ra=N_points_dec=N^2 .
+
+## OUTPUTS
+
+The output is the sky grid model, a single, ready-to-use astropy.SkyCoord object
+
+
+
+
+
+
+

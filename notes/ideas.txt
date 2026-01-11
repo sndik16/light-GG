@@ -1,0 +1,26 @@
+Scratch ideas
+
+
+2025/12/22
+
+Make a TEST or mention in README file that it is for a small patch/area.
+Maybe add some limits on the number of grid points when this approach is not practical?
+
+Maybe create another instance of grid, using the element indices instead of element values as the basis.
+
+
+
+## Email
+
+I have developed a self-contained, memory-safe Python wrapper for general 2D Cartesian grid generation. This utility is not specific to our project's core tasks and was developed independently. I would like to publish it as open source on my personal GitHub account under permissive licence e.g., MIT, as a personal project. Please provide any feedback or approval witihn 10 working days. I have already asked INAF  IP Office for guidance as well, and am in conversation with them to follow INAF policies.
+
+
+## Project for Open Source Release: Memory-Safe Cartesian Grid Wrapper
+
+This project aims to develop an open-source Python utility to simplify and optimize the creation of large, high-resolution 2D Cartesian grids from two 1D axes. This technique is applicable to any field requiring efficient gridded data structures.
+
+* **Problem:** Generating a  grid currently forces a choice: use the intuitive but memory-intensive  (which temporarily doubles memory usage by creating two large 2D arrays), or use the cryptic but memory-efficient / array manipulation. This dilemma compromises either **code clarity** or **memory stability** for large grids.
+
+* **Solution:** Create an intuitive wrapper function for inputs, while under the hood there is a memory-efficient numpy work. 
+
+* **Goal:** To establish a **robust, clear, and memory-safe standard** for generating massive 2D grids, promoting best practices across all scientific fields that rely on NumPy. Accessible to large set of users with minimal coding background.
