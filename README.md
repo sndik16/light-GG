@@ -1,107 +1,90 @@
 # Light-GG
 
-## SUMMARY
+**Light-GG** is a lightweight, unit-agnostic Python utility for constructing
+2D coordinate grids using only 1D axes and NumPy broadcasting.
 
-This is just a small code which creates a coordinate grid.
-The coordinate grid is a 2D Grid model (Cartesian grid).
-We use an intuitive wrapper for ganarting sky coordinte grids (but really any grids).
+The goal is to define large, regular grids using **human-intuitive inputs**
+(reference point, extent, resolution) while avoiding the memory cost of
+explicit 2D meshgrids.
 
-It is light on memory usage using python concepts.
-However, its inputs are intuitive for humans (The KEY aspect of this code package), who can use their school geometry knowledge to use the program.
+Light-GG is intentionally minimal and domain-neutral.
 
-This is a wrapper that is more intuitive and at the same time has a fast calculation under the hood.
-We document all steps for transparency.
-This wrapper proiritizes clarity and intuition while leveraging optimized calculations internally, making the basis for good software design for a range of scientific users from various backgrounds.
+---
 
-## APPLICATION EXAMPLES
-The application is, for example, a rectangular sky coordinate system in astronomy, for mapping galaxies or survey coverage.
-Another applications could be terrestrial coverage, for example surveys of land area. For example, if radar monitoring is done with aircraft over certain fields or if some pesticide spraying needs to be carried out over land.
+## Core idea
 
+A 2D grid is defined mathematically as:
 
-## DISCLAIMER
-This project was developed while I worked at INAF as a postdoc, but during my independent time.
+x = x0 + i · dx
+y = y0 + j · dy
 
-
-
-## REASONS FOR CREATING THIS CODE
-When we think of coordinate grids in 2D, from basic geometry, we imagine a grid.
-Each point has two coordinates - x and y.
-However, creating such intuitive grids and furthermore operating on them is not always easy.
-For example, for just 1 degree square patch of sky, if patch is subdivided into its arcseconds, 
-we create already more than ten million tiles!
-This type of grid is heavy on the memory usage.
-
-One approach which is human-intuitive, is to use the np.meshgrid, which creates exactly the grid.
-
-However, it is memory heavy in many instances.
-
-In this alternative approach, we use regular grid-like inputs, so that the humans using the program can use their geometry intuition about grids. 2D arrays match mental map, so the inputs let the user imagine the map they want and use that imagined structure to specify what they need to the program. This higher clarity and visual accessibility of the approach is , what we believe, the superior design choice and what makes this program special.
-
-Thus, we emphasize and make important the human-centered design in scientific computing.
-
-However, under the hood we utilize less memory-heavy operations to create the coordinate system grid.
-We use np.tile and np.repeat to ease the workload on the memory, so that large 2D data structures are not employed to clog the system.
+```yml
+where:
+- `(x0, y0)` is a reference point (origin),
+- `dx` and `dy` are grid spacings,
+- `i` and `j` are grid indices.
+```
 
 
-We put as a priority clarity and human readability, so that memory optimization does not make the code unreadable and unusable to people.
+Light-GG stores only the **1D axes** and relies on NumPy broadcasting to
+perform 2D computations efficiently.
 
-The human-intuitive inputs allow easy definition of the grid structure, so it is highly clear on what exactly is being created. It is also visually more intuitive and clear to humans. As the world is not created only for engineers, the human usability, visual clarity, and prioritizing the user experience over pure low-level optimization and memory efficiency, allows us to bring this code to a wider audience potentially, so that this program can serve a larger sector of people in the world. We don't want to prioritize the memory savings at the expense of readability. With current technology, the short-term memory allocation is perfectly acceptable for the long-term gain in code clarity and robustness.
+---
 
-We also attempt to create logical steps which are not prone to human errors as much, so the syntax is clear, the intermediate steps are clear.
+## Features
 
-Maybe in the future we can create instances with more high level numpy-broadcasting tricks, for advanced users or AI machines.
+- Unit-agnostic (degrees, meters, pixels, etc.)
+- Memory-efficient grid construction
+- Simple, explicit API
+- Suitable for prototyping in astronomy, geospatial analysis,
+  radar, agriculture, and general image processing
 
-But for now, this instance uses clear, reliable, and efficient enough method, to avoid the memory strain of meshgrid-like 2D intermediate arrays.
+---
 
-While the user provides grid parameters, the function internaly uses optimized methods to prevent memory overruns on large grids.
+## Installation (development)
 
+From the repository root:
 
+```bash
+python -m pip install -e .
+```
 
-## Why we publish as Open Source
+## Basic usage
 
-The key roasons why this wrapper has significant value to the astronomical and general scientific comunity are:
-1. Addresses a Universal Pain Point: Generating large, regular grids for sky modeling, simulations, or map projections is a fundamental task in astronomy (e.g., Euclid, 4MOST, LSST, and countless individual projects). The trade-off between clarity (np.meshgrid-like) and efficiency (np.tile/np.repeat-tricks) is a common dilemma. This wrapper solves this dilemma elegantly.
+```python
+from lightgg import make_axes_from_reference
 
-2. Encourages Best Practices: By providing a clear , simple function that automatically employs memory-safe techniques, we are standardizing a best practice. New users avoid hitting memory limits, and veteran users gain a clear, documented utility function.
+vector_x, vector_y = make_axes_from_reference(
+    x_reference=0.0,
+    y_reference=0.0,
+    span_x=600.0,
+    span_y=400.0,
+    step=10.0,
+)
 
-3. Low Barrier to Entry: Because the code is succinct, it is easy to aduit, test, and integrate into existing projects. The core logic relies on fundamentyl NumPy and Astropy concetps, making it accessible.
+# Broadcasted coordinate views
+X = vector_x[None, :]
+Y = vector_y[:, None]
 
-4. Extensibility: Once the wrapper is public, others may contribute features like:
-- Adding support for HEALPix conversion.
-- Automatic chunking for parallel processing on multi-core systems.
-- Support for different coordinate frames (e.g., Galactic).
-- Alternative approaches with more advanced broadcasting tools with numpy.
-- Maybe explored for other geometry types (spherical etc.)
+```
 
-5. Can be applied to any instance where a Cartesian 2D grid is applicable, e.g. geosurveys, radar surveys, including across all scientific disciplines that require large, optimized 2D data grids, such as fluid dynamics, image processing, finite element analysis, etc.
+## Tutorials
+The tutorials/ directory contains Jupyter notebooks that demonstrate
+practical usage:
 
-In short, it provides a valuable solution to a common scientific programming problem and is perfectly suited for open-source contribution.
+* 01_toy_field.ipynb — basic grid construction and visualization
 
+* 02_fake_flight_lines.ipynb — simulated flight lines and swath coverage
 
-## INPUTS
-The input is just several parameters which describe a x/y coordinate grid in one's imagination.
+These notebooks are intended as educational examples rather than
+domain-specific implementations.
 
-Patch coordinates:
-reference_ra
-reference_dec
-ra_end
-dec_end
+## Scope
+Light-GG focuses only on grid construction.
 
-Number of points in each dimension
-N_points_ra
-N_points_dec
+Coordinate reference systems (CRS), projections, file formats, and
+domain-specific logic are intentionally out of scope and can be layered
+on top if needed.
 
-The resultant grid has a size of N_points_ra x N_points_dec size.
-
-In case of the square patch, N_points_ra=N_points_dec=N^2 .
-
-## OUTPUTS
-
-The output is the sky grid model, a single, ready-to-use astropy.SkyCoord object
-
-
-
-
-
-
-
+## License
+MIT License
