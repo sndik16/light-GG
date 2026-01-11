@@ -1,5 +1,9 @@
 # Light-GG
 
+Author: Maria Babakhanyan Stone
+
+This project is exploratory and intentionally minimal.
+
 **Light-GG** is a lightweight, unit-agnostic Python utility for constructing
 2D coordinate grids using only 1D axes and NumPy broadcasting.
 
