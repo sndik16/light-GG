@@ -17,6 +17,8 @@ explicit 2D meshgrids.
 
 Light-GG is intentionally minimal and domain-neutral.
 
+**Name** The "GG" in the Light-GG grid generator stands for the word "griglia" from Italian, which means a 'grid'.
+
 ---
 
 
