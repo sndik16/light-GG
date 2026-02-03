@@ -19,8 +19,9 @@ Light-GG is intentionally minimal and domain-neutral.
 
 A 2D grid is defined mathematically as:
 
-x = x0 + i · dx
-y = y0 + j · dy
+* x = x0 + i · dx
+
+* y = y0 + j · dy
 
 ```yml
 where:
