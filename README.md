@@ -1,5 +1,9 @@
 # Light-GG
 
+DOI: 10.5281/zenodo.18467222 (all versions)
+
+[![DOI](https://zenodo.org/badge/1115256387.svg)](https://doi.org/10.5281/zenodo.18467222)
+
 Author: Maria Babakhanyan Stone
 
 This project is exploratory and intentionally minimal.
@@ -14,6 +18,7 @@ explicit 2D meshgrids.
 Light-GG is intentionally minimal and domain-neutral.
 
 ---
+
 
 ## Core idea
 
