@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "light-GG"
+version: "v1.0.0"
+doi: "10.5281/zenodo.18467222"
+license: "MIT"
+repository-code: "https://github.com/sndik16/light-GG"
+url: "https://github.com/sndik16/light-GG"
+abstract: >
+  Light-GG is a lightweight, unit-agnostic Python utility for constructing
+  2D coordinate grids using only 1D axes and NumPy broadcasting. It enables
+  memory-efficient grid construction from human-intuitive inputs (reference
+  point, extent, resolution) while avoiding explicit 2D meshgrids.
+keywords:
+  - grids
+  - numpy
+  - broadcasting
+  - scientific computing
+  - astronomy
+  - geospatial
+authors:
+  - family-names: "Babakhanyan Stone"
+    given-names: "Maria"
+    orcid: "https://orcid.org/0000-0002-2931-0593"
+
+preferred-citation:
+  type: software
+  title: "light-GG"
+  version: "v1.0.0"
+  doi: "10.5281/zenodo.18467222"
+  authors:
+    - family-names: "Babakhanyan Stone"
+      given-names: "Maria"
+      orcid: "https://orcid.org/0000-0002-2931-0593"
+  url: "https://github.com/sndik16/light-GG"
